@@ -53,11 +53,13 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	private final BeanDefinitionRegistry registry;
 
 	@Nullable
+	//资源加载器，主要应用于根据给定的资源文件地址返回对应的Resource
 	private ResourceLoader resourceLoader;
 
 	@Nullable
 	private ClassLoader beanClassLoader;
 
+	//定义获取enviroment方法
 	private Environment environment;
 
 	private BeanNameGenerator beanNameGenerator = new DefaultBeanNameGenerator();
