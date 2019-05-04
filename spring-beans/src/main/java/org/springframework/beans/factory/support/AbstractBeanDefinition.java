@@ -141,65 +141,90 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	private volatile Object beanClass;
 
 	@Nullable
+	//bean的作用范围
 	private String scope = SCOPE_DEFAULT;
 
 	private boolean abstractFlag = false;
 
+	//是否延迟加载
 	private boolean lazyInit = false;
 
+	//自动注入模式
 	private int autowireMode = AUTOWIRE_NO;
 
+	//依赖检查，spring3.0之后弃用
 	private int dependencyCheck = DEPENDENCY_CHECK_NONE;
 
 	@Nullable
+	//表示一个bean的实例化依赖另一个bean先实例化
 	private String[] dependsOn;
 
+	//如果autowire-candidate属性设置为false，则容器在查找自动装配对象时，将不会考虑该bean
+	//即该bean不会成为其他bean自动装配的候选者，但是该bean本身还是可以使用自动装配来注入其他bean
 	private boolean autowireCandidate = true;
 
+	//自动装配出现多个候选bean时，将作为首选者
 	private boolean primary = false;
 
+	//用于记录qualifier
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
 
 	@Nullable
 	private Supplier<?> instanceSupplier;
 
+	//允许访问非公开的构造器和方法，该属性由程序设置
 	private boolean nonPublicAccessAllowed = true;
 
+	//是否以一种宽松的模式解析构造函数，默认为true
+	//如果设置为false，则在某个类存在多个构造函数时将无法确定采用哪个，直接抛出异常
 	private boolean lenientConstructorResolution = true;
 
 	@Nullable
+	//对应bean属性factory-bean
 	private String factoryBeanName;
 
 	@Nullable
+	//对应bean属性factory-method
 	private String factoryMethodName;
 
 	@Nullable
 	private ConstructorArgumentValues constructorArgumentValues;
 
 	@Nullable
+	//普通属性集合
 	private MutablePropertyValues propertyValues;
 
 	@Nullable
+	//方法重写的持有者，记录lookup-method、replaced-method元素
 	private MethodOverrides methodOverrides;
 
 	@Nullable
+	//初始化方法，对应bean属性init-method
 	private String initMethodName;
 
 	@Nullable
+	//销毁方法，对应bean属性destroy-method
 	private String destroyMethodName;
 
+	//是否执行init-method，由程序设置
 	private boolean enforceInitMethod = true;
 
+	//是否执行destroy-method，由程序设置
 	private boolean enforceDestroyMethod = true;
 
+	//是否是用户定义的而不是程序本身定义的，创建AOP时候为true，由程序设置
 	private boolean synthetic = false;
 
+	//定义这个bean的应用角色，由程序设置
+	//APPLICATION:用户，INFRASTRUCTURE：完全内部使用与用户无关，SUPPORT：某些复杂配置的一部分
 	private int role = BeanDefinition.ROLE_APPLICATION;
 
 	@Nullable
+	//bean的描述信息
 	private String description;
 
 	@Nullable
+	//bean定义的资源
 	private Resource resource;
 
 
