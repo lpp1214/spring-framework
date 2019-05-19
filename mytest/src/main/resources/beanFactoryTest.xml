@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:myname="http://www.mytest.com/schema/user"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-       		http://www.springframework.org/schema/beans/spring-beans.xsd">
+       		http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.mytest.com/schema/user
+			http://www.mytest.com/schema/user.xsd">
 
 	<bean id="myTestBean" class="mytest.bean.MyTestBean" />
 
+	<myname:userTest id="testBean" userName="aaa" email="bbb" />
+
+	<bean id="car" class="mytest.FactoryBeanTest.CarFactoryBean">
+		<property name="carInfo" value="法拉利,400,4000000.00"/>
+	</bean>
 </beans>
