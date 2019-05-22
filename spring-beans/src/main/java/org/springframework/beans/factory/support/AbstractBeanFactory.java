@@ -241,7 +241,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			@Nullable final Object[] args, boolean typeCheckOnly) throws BeansException {
 		//提取对应的beanName
 		//入参中的name可能是别名，也可能是FactoryBean，所以需要进行一系列解析
-		//如果name="&aa"那么会首先去除&，如果别名A只想别名B，别名B又指向别名C的bean，则返回C
+		//如果name="&aa"那么会首先去除&，如果别名A指向别名B，别名B又指向别名C的bean，则返回C
 		final String beanName = transformedBeanName(name);
 		Object bean;
 
@@ -302,7 +302,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			try {
-				//将存储XML配置文件的GenericBeanDefinition转换为RootBeanDefinition
+				//将存储XML配置文件的GenericBeanDefinition转换为RootBeanDefinition，并添加至mergedBeanDefinitions
 				//如果指定BeanName是子Bean的话同时会合并父类的相关属性
 				final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
@@ -1741,11 +1741,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// Register a DisposableBean implementation that performs all destruction
 				// work for the given bean: DestructionAwareBeanPostProcessors,
 				// DisposableBean interface, custom destroy method.
+				//单例模式下注册需要销毁的bean，此方法中会处理时限DisposableBean的bean，
+				//并且对所有bean使用DestructionAwareBeanPostProcessors处理
+				//DisposableBean DestructionAwareBeanPostProcessors
 				registerDisposableBean(beanName,
 						new DisposableBeanAdapter(bean, beanName, mbd, getBeanPostProcessors(), acc));
 			}
 			else {
 				// A bean with a custom scope...
+				//自定义scope的处理
 				Scope scope = this.scopes.get(mbd.getScope());
 				if (scope == null) {
 					throw new IllegalStateException("No Scope registered for scope name '" + mbd.getScope() + "'");

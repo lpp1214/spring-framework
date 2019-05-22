@@ -531,11 +531,11 @@ public class BeanDefinitionParserDelegate {
 			//提取description
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
-			//解析元数据
+			//解析元数据，将解析出的元数据信息装入bd
 			parseMetaElements(ele, bd);
-			//解析lookup-method属性，获取器注入
+			//解析lookup-method属性，获取器注入，将解析出的信息装入bd
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
-			//解析replaced-method属性，替换原有方法
+			//解析replaced-method属性，替换原有方法，将解析出的信息装入bd
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
 			//解析构造函数，常用的Array、List、Set、Map等都是在此完成
 			parseConstructorArgElements(ele, bd);

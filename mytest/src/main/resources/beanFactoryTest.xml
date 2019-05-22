@@ -7,11 +7,70 @@
 			http://www.mytest.com/schema/user
 			http://www.mytest.com/schema/user.xsd">
 
-	<bean id="myTestBean" class="mytest.bean.MyTestBean" />
+	<bean id="myTestBean" class="mytest.bean.MyTestBean">
+		<property name="testStr" value="xml中的自定义字符串"/>
+		<property name="testList">
+			<list>
+				<value>啊啊啊</value>
+				<value>哦哦哦</value>
+				<value>呃呃呃</value>
+				<value>嗯嗯嗯</value>
+			</list>
+		</property>
+	</bean>
 
+	<bean id="person1" class="mytest.bean.Person">
+		<property name="name" value="Jack"/>
+		<property name="age" value="33"/>
+		<property name="salary" value="20000.00"/>
+		<property name="hobby">
+			<list>
+				<value>Boxing</value>
+				<value>Music</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="person2" class="mytest.bean.Person">
+		<property name="name" value="Andy"/>
+		<property name="age" value="26"/>
+		<property name="salary" value="10000.00"/>
+		<property name="hobby">
+			<list>
+				<value>Football</value>
+				<value>Game</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="person3" class="mytest.bean.Person">
+		<property name="name" value="Betty"/>
+		<property name="age" value="23"/>
+		<property name="salary" value="8000.00"/>
+		<property name="hobby">
+			<list>
+				<value>Travel</value>
+				<value>Shoping</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="department" class="mytest.bean.Department">
+		<property name="name" value="Marketing Department"/>
+		<property name="leader" ref="person1"/>
+		<property name="member">
+			<set>
+				<ref bean="person2"/>
+				<ref bean="person3"/>
+			</set>
+		</property>
+	</bean>
+
+	<!--
 	<myname:userTest id="testBean" userName="aaa" email="bbb" />
 
 	<bean id="car" class="mytest.FactoryBeanTest.CarFactoryBean">
 		<property name="carInfo" value="法拉利,400,4000000.00"/>
 	</bean>
+	-->
 </beans>
