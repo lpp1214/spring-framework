@@ -70,6 +70,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 
 	@Override
 	@Nullable
+	//创建代理主要包含两个步骤   1.获取增强方法或者增强器  2.根据获取的增强进行代理
 	protected Object[] getAdvicesAndAdvisorsForBean(
 			Class<?> beanClass, String beanName, @Nullable TargetSource targetSource) {
 
@@ -89,9 +90,13 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	 * @see #findCandidateAdvisors
 	 * @see #sortAdvisors
 	 * @see #extendAdvisors
+	 * 对于指定bean的增强方法的获取一定是包含两个步骤，获取所有的增强以及寻找所有增强中适用于bean的增强并应用
+	 * findCandidateAdvisors、findAdvisorsThatCanApply分别完成这两件事
+	 * 如果无法找到对应的增强器便返回DO_NOT_PROXY，其中DO_NOT_PROXY=null
 	 */
 	protected List<Advisor> findEligibleAdvisors(Class<?> beanClass, String beanName) {
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
+		//前面的数完成所有增强器的解析，但是对于所有增强器来讲，并不一定都适用于当前bean，还要挑取出满足我们配置的通配符的增强器
 		List<Advisor> eligibleAdvisors = findAdvisorsThatCanApply(candidateAdvisors, beanClass, beanName);
 		extendAdvisors(eligibleAdvisors);
 		if (!eligibleAdvisors.isEmpty()) {
@@ -123,6 +128,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 
 		ProxyCreationContext.setCurrentProxiedBeanName(beanName);
 		try {
+			//过滤已经得到的advisors，寻找所有增强器中适用于当前class的增强器
 			return AopUtils.findAdvisorsThatCanApply(candidateAdvisors, beanClass);
 		}
 		finally {

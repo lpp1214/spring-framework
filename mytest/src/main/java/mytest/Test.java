@@ -1,22 +1,20 @@
 package mytest;
 
 
-import mytest.bean.Car;
 import mytest.bean.Department;
-import mytest.bean.MyTestBean;
-import mytest.xsdTest.User;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
-		BeanFactory bf = new XmlBeanFactory(new ClassPathResource("beanFactoryTest.xml"));
+		//BeanFactory bf = new XmlBeanFactory(new ClassPathResource("beanFactoryTest.xml"));
+		ApplicationContext ac = new ClassPathXmlApplicationContext("beanFactoryTest.xml");
 
-		MyTestBean bean = (MyTestBean) bf.getBean("myTestBean");
-		System.out.println(bean.getTestStr());
 
-		Department department = (Department) bf.getBean("department");
+		//MyTestBean bean = (MyTestBean) bf.getBean("myTestBean");
+		//System.out.println(bean.getTestStr());
+
+		Department department = (Department) ac.getBean("department");
 
 		/*
 		User user = (User) bf.getBean("testBean");

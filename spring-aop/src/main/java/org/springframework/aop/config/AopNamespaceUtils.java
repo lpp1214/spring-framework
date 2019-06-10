@@ -74,20 +74,37 @@ public abstract class AopNamespaceUtils {
 	public static void registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 			ParserContext parserContext, Element sourceElement) {
 
+		//注册或升级AutiProxyCreator定义beanName为org.Springframework.aop.config.internalAutoProxyCreator的BeanDefinition
 		BeanDefinition beanDefinition = AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
+
+		//对于proxy-target-class以及expose-proxy属性的处理
 		useClassProxyingIfNecessary(parserContext.getRegistry(), sourceElement);
+
+		//注册组件并通知，便于监听器做进一步处理
+		//其中beanDefinition的className为AnnotationAwareAspectJAutoProxyCreator
 		registerComponentIfNecessary(beanDefinition, parserContext);
 	}
 
 	private static void useClassProxyingIfNecessary(BeanDefinitionRegistry registry, @Nullable Element sourceElement) {
 		if (sourceElement != null) {
+			//对于proxy-target-class属性的处理
 			boolean proxyTargetClass = Boolean.parseBoolean(sourceElement.getAttribute(PROXY_TARGET_CLASS_ATTRIBUTE));
 			if (proxyTargetClass) {
+				//强制使用的过程其实也是一个属性设置的过程
+				//强制使用CGLIB代理（例如希望代理目标对象的所有方法而不是实现自接口的方法）
+				//将会无法通知final方法（因为final方法不会被复写），并且需要将CGLIB二进制发型宝放在classpath下面
+				//JDK动态代理：其代理对象必须是某个接口的实现，它是通过在运行期间创建一个接口的实现类来完成对目标对象的代理
+				//CGLIB代理：实现原理类似于JDK，只是它在运行期间生成的代理对象是针对目标类扩展的子类，CGLIB是高效的代码生成包，
+				//			底层是依靠ASM（开源的java字节码编辑类库）操作字节码实现的，性能比JDK强
 				AopConfigUtils.forceAutoProxyCreatorToUseClassProxying(registry);
 			}
+
+			//对于expose-proxy属性的处理
 			boolean exposeProxy = Boolean.parseBoolean(sourceElement.getAttribute(EXPOSE_PROXY_ATTRIBUTE));
 			if (exposeProxy) {
+				//强制使用的过程其实也是一个属性设置的过程
+				//expose-proxy会让目标对象内部的自我调用也能得到切面增强
 				AopConfigUtils.forceAutoProxyCreatorToExposeProxy(registry);
 			}
 		}

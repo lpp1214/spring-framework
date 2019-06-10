@@ -29,6 +29,7 @@
 				<value>Music</value>
 			</list>
 		</property>
+		<property name="department" ref="department"/>
 	</bean>
 
 	<bean id="person2" class="mytest.bean.Person">
@@ -58,12 +59,12 @@
 	<bean id="department" class="mytest.bean.Department">
 		<property name="name" value="Marketing Department"/>
 		<property name="leader" ref="person1"/>
-		<property name="member">
+		<!--<property name="member">
 			<set>
 				<ref bean="person2"/>
 				<ref bean="person3"/>
 			</set>
-		</property>
+		</property>-->
 	</bean>
 
 	<!--

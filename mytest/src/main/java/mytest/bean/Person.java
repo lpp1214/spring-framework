@@ -12,6 +12,8 @@ public class Person {
 
 	private Set<String> hobby;
 
+	private Department department;
+
 	public String getName() {
 		return name;
 	}
@@ -42,5 +44,13 @@ public class Person {
 
 	public void setHobby(Set<String> hobby) {
 		this.hobby = hobby;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 }

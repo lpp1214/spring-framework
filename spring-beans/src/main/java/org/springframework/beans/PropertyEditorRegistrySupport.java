@@ -196,6 +196,7 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 
 	/**
 	 * Actually register the default editors for this registry instance.
+	 * spring中定义的一系列常用属性编辑器
 	 */
 	private void createDefaultEditors() {
 		this.defaultEditors = new HashMap<>(64);
