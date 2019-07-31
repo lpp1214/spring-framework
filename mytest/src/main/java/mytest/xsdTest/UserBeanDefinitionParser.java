@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 
 public class UserBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 	//Element对应的类
-	protected Class getBeanClass(Element element) {
+	protected Class<User> getBeanClass(Element element) {
 		return User.class;
 	}
 
